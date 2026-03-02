@@ -1,49 +1,44 @@
 export class ScrambleGenerator {
-    private readonly _moves = ['R', 'L', 'U', 'D', 'F', 'B'];
-    private readonly _modifiers = ['', "'", '2'];
-    private _generatedMoves: string[] = [];
+    private readonly _moves = ["R", "L", "U", "D", "F", "B"];
+    private readonly _modifiers = ["", "'", "2"];
 
-    /**
-     * Generates a random move.
-     * @returns A random move.
-     */
     private generateMove(): string {
         return this._moves[Math.floor(Math.random() * this._moves.length)];
     }
 
-    /**
-     * Generates a random modifier for a move.
-     * @returns A random modifier for a move.
-     */
     private generateModifier(): string {
         return this._modifiers[Math.floor(Math.random() * this._modifiers.length)];
     }
 
-    /**
-     * Generates a scramble of a given length.
-     * @param length The length of the scramble.
-     * @returns The generated scramble.
-     */
+    private axis(face: string): "x" | "y" | "z" {
+        if (face === "R" || face === "L") return "x";
+        if (face === "U" || face === "D") return "y";
+        return "z"; // F/B
+    }
+
     generate(length: number): string {
+        const generatedMoves: string[] = [];
+
         for (let i = 0; i < length; i++) {
             let move = this.generateMove();
             let modifier = this.generateModifier();
             let fullMove = move + modifier;
 
-            if (this._generatedMoves.length === 0) {
-                this._generatedMoves.push(fullMove);
-                continue;
-            }
-            const previousFullMove = this._generatedMoves[this._generatedMoves.length - 1];
 
-            while (previousFullMove === fullMove || previousFullMove.slice(0, 1) === move) {
-                move = this.generateMove();
-                modifier = this.generateModifier();
-                fullMove = move + modifier;
+            if (generatedMoves.length > 0) {
+                const prevFullMove = generatedMoves[generatedMoves.length - 1];
+                const prevFace = prevFullMove.slice(0, 1);
+
+                while (prevFullMove === fullMove || this.axis(prevFace) === this.axis(move)) {
+                    move = this.generateMove();
+                    modifier = this.generateModifier();
+                    fullMove = move + modifier;
+                }
             }
 
-            this._generatedMoves.push(fullMove);
+            generatedMoves.push(fullMove);
         }
-        return this._generatedMoves.join(' ');
+
+        return generatedMoves.join(" ");
     }
 }
