@@ -50,7 +50,10 @@ export class SolveHistoryTitle {
     selector: 'app-solve-history',
     template: `
         <section class="solve-history" aria-labelledby="solve-history-title">
-            <solve-history-title />
+            <div class="solve-history__header">
+                <button class="button-destructive" (click)="history.clear()">Clear</button>
+                <solve-history-title />
+            </div>
 
             <ul class="solve-history__list">
                 @for (solve of history.solves(); track solve.id) {
