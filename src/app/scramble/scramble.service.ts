@@ -6,7 +6,7 @@ import { Scramble } from "./types";
 @Injectable({
     providedIn: "root"
 })
-export class ScrambleStore {
+export class ScrambleService {
     private readonly _scrambleGenerator = new ScrambleGenerator();
 
     private _currentScramble = signal<Scramble>('');
