@@ -10,13 +10,9 @@ export class ScrambleService {
     private readonly _scrambleGenerator = new ScrambleGenerator();
 
     private _currentScramble = signal<Scramble>('');
-    readonly currentScramble = computed(() => this._currentScramble());
+    currentScramble = this._currentScramble.asReadonly();
 
-    constructor() {
-        this.regenerate(20);
-    }
-
-    regenerate(length: number): void {
+    generate(length: number): void {
         const newScramble = this._scrambleGenerator.generate(length);
 
         this._currentScramble.set(newScramble);
