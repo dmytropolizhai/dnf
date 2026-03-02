@@ -1,2 +1,2 @@
 export { ScrambleComponent } from "./scramble.component"
-export { ScrambleStore } from "./scramble.store"
+export { ScrambleService as ScrambleStore } from "./scramble.service"
