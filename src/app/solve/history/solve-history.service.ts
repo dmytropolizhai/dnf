@@ -91,6 +91,10 @@ export class SolveHistoryService {
         this._localStorage.removeItem(id.toString());
     }
 
+    clear() {
+        this._solves.set([]);
+        this._localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
 
     differenceBetweenLastTwoSolves = computed(() => {
         const solves = this._solves.asReadonly()();
