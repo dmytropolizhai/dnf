@@ -1,17 +1,34 @@
-import { computed, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { Solve } from "../types";
 import { Penalty } from "../penalty";
+
+import { LocalStorageService } from "@/app/local-storage";
+
+const LOCAL_STORAGE_KEY = "solves"
 
 @Injectable({
     providedIn: 'root'
 })
 export class SolveHistoryService {
-    private _solves = signal<Solve[]>([]);
+    private readonly _localStorage = inject(LocalStorageService);
+
+    private _solves = signal<Solve[]>(this.loadSolves());
     private _nextId = 1;
 
     solves = this._solves.asReadonly();
 
     currentSolve = computed(() => this._solves.asReadonly()()[0]);
+
+    /**
+     * Loads the solve history from local storage.
+     * @returns The solve history.
+     */
+    loadSolves() {
+        console.log("Loading solves from local storage.")
+        const solves = this._localStorage.getItem<Solve[]>(LOCAL_STORAGE_KEY);
+
+        return solves ?? [];
+    }
 
     /**
      * Formats the elapsed time in milliseconds to a string representation.
@@ -45,6 +62,8 @@ export class SolveHistoryService {
         };
 
         this._solves.update((solves) => [newSolve, ...solves]);
+
+        this._localStorage.setItem(LOCAL_STORAGE_KEY, this._solves.asReadonly()());
     }
 
     /**
@@ -69,6 +88,7 @@ export class SolveHistoryService {
      */
     deleteSolve(id: number) {
         this._solves.update(solves => solves.filter(solve => solve.id !== id));
+        this._localStorage.removeItem(id.toString());
     }
 
 
