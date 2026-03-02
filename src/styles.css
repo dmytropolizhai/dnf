@@ -14,6 +14,11 @@ body {
     --color-negative: #ff4757;
 }
 
+.button-destructive:hover {
+    background-color: var(--color-negative);
+    border: 1px solid var(--accent-color);
+}
+
 .primary-container {
     background: var(--background-color);
     padding: 0.25rem 0.5rem;
