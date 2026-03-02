@@ -1,22 +1,21 @@
-import { Component, inject } from "@angular/core";
-import { ScrambleStore } from "./scramble.store";
+import { Component, inject, input } from "@angular/core";
+import { ScrambleService } from "./scramble.service";
 
 @Component({
-    selector: 'app-scramble',
+    selector: "app-scramble",
     template: `
         <section class="scramble">
-            {{ scrambleStore.currentScramble()}}
+            {{ scramble.currentScramble() }}
+            <button (click)="scramble.generate(length())">&#x27f3;</button>
         </section>
     `,
-    styles: `
-        .scramble {
-            font-size: 2rem;
-            font-weight: 400;
-            letter-spacing: 0.1rem;
-            text-align: center;
-        }
-    `
+    styleUrl: "./scramble.component.css"
 })
 export class ScrambleComponent {
-    protected scrambleStore = inject(ScrambleStore)
+    length = input<number>(20);
+    protected scramble = inject(ScrambleService);
+
+    constructor() {
+        this.scramble.generate(this.length());
+    }
 }
