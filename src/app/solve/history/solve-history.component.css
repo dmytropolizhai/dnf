@@ -9,11 +9,16 @@
   scrollbar-color: var(--accent-color) transparent;
 }
 
+.solve-history__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .solve-history__title {
   font-size: 1.2rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 1rem 0;
   letter-spacing: 0.05rem;
   position: sticky;
   top: 0;
