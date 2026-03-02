@@ -16,7 +16,7 @@
     "module": "preserve",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },
