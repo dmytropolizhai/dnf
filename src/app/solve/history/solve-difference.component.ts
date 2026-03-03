@@ -13,7 +13,7 @@ import { SolveHistoryService } from "./solve-history.service";
         >
 
             @if (difference) {
-                {{ difference < 0 ? ' ' : '+' }}{{ difference.toFixed(2) }}
+                {{ difference < 0 ? ' ' : '+' }}{{ difference.toFixed(3).toString() }}
             }
         </span>
     `,
