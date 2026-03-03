@@ -1,6 +1,7 @@
 import { Injectable, inject, computed } from "@angular/core";
 import { SolveHistoryService } from "../history/solve-history.service";
 import { Solve } from "../types";
+import { formatTime } from "@/app/utils";
 
 @Injectable({
     providedIn: "root"
@@ -48,7 +49,8 @@ export class SolveStatistics {
             elapsedTime: avg,
             penalty: 'OK',
             date: new Date(),
-            scramble: lastN[lastN.length - 1].scramble
+            scramble: lastN[lastN.length - 1].scramble,
+            formattedTime: formatTime(avg, 'OK')
         } as Solve;
     }
 
