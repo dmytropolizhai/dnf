@@ -1,6 +1,6 @@
 import { Component, inject, input } from "@angular/core";
-import { PenaltyService } from "./penalty.service";
 import { Penalty } from "./types";
+import { SolveHistoryService } from "../history/solve-history.service";
 
 @Component({
     selector: "solve-penalty-selector",
@@ -13,14 +13,17 @@ import { Penalty } from "./types";
     `,
 })
 export class PenaltySelector {
-    private readonly _penaltyService = inject(PenaltyService);
+    private readonly _historyService = inject(SolveHistoryService);
 
     solveId = input.required<number>();
     currentPenalty = input<Penalty>();
 
     onPenaltyChange(event: Event) {
         const target = event.target as HTMLSelectElement;
-        const penalty = target.value as Penalty;
-        this._penaltyService.setPenalty(this.solveId(), penalty);
+        const newPenalty = target.value as Penalty;
+
+        this._historyService.updateSolve(this.solveId(), {
+            penalty: newPenalty
+        });
     }
 }
