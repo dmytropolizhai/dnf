@@ -3,6 +3,7 @@ import { Solve } from "../types";
 import { Penalty } from "../penalty";
 
 import { LocalStorageService } from "@/app/local-storage";
+import { formatTime } from "@/app/utils";
 
 const LOCAL_STORAGE_KEY = "solves"
 
@@ -31,19 +32,6 @@ export class SolveHistoryService {
     }
 
     /**
-     * Formats the elapsed time in milliseconds to a string representation.
-     * @param timeMs The elapsed time in milliseconds.
-     * @param penalty The penalty to apply to the elapsed time.
-     * @returns The formatted time as a string.
-     */
-    private formatTime(timeMs: number, penalty: Penalty) {
-        if (penalty === "DNF") return "DNF";
-        const totalMs = penalty === "+2" ? timeMs + 2000 : timeMs;
-
-        return (totalMs / 1000).toFixed(2);
-    }
-
-    /**
      * Adds a new solve to the solve history.
      * @param solve The solve to add to the solve history.
      */
@@ -57,7 +45,7 @@ export class SolveHistoryService {
 
         const newSolve: Solve = {
             id: this._nextId++,
-            formattedTime: this.formatTime(solve.elapsedTime, solve.penalty),
+            formattedTime: formatTime(solve.elapsedTime, solve.penalty),
             ...solve,
         };
 
@@ -76,7 +64,7 @@ export class SolveHistoryService {
                 ? {
                     ...solve,
                     penalty,
-                    formattedTime: this.formatTime(solve.elapsedTime, penalty)
+                    formattedTime: formatTime(solve.elapsedTime, penalty)
                 }
                 : solve
             )
