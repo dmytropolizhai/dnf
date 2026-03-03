@@ -64,7 +64,7 @@ export class SolveHistoryService {
                 ? {
                     ...solve,
                     ...updates,
-                    formattedTime: formatTime(solve.elapsedTime, penalty)
+                    formattedTime: formatTime(solve.elapsedTime, solve.penalty)
                 }
                 : solve
             )
