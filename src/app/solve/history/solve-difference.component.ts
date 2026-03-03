@@ -4,7 +4,7 @@ import { SolveHistoryService } from "./solve-history.service";
 @Component({
     selector: 'solve-difference',
     template: `
-        @let difference = solveHistoryService.differenceBetweenLastTwoSolves();
+        @let difference = history.differenceBetweenLastTwoSolves();
 
         <span 
             [class.positive]="difference < 0"
@@ -21,5 +21,5 @@ import { SolveHistoryService } from "./solve-history.service";
     standalone: true,
 })
 export class SolveDifference {
-    protected readonly solveHistoryService = inject(SolveHistoryService);
+    protected readonly history = inject(SolveHistoryService);
 } 
