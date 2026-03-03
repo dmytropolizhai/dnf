@@ -14,7 +14,6 @@ export class SolveHistoryService {
     private readonly _localStorage = inject(LocalStorageService);
 
     private _solves = signal<Solve[]>(this.loadSolves());
-    private _nextId = 1;
 
     solves = this._solves.asReadonly();
 
@@ -44,8 +43,8 @@ export class SolveHistoryService {
         `);
 
         const newSolve: Solve = {
-            id: this._nextId++,
             formattedTime: formatTime(solve.elapsedTime, solve.penalty),
+            id: this._solves().length,
             ...solve,
         };
 
@@ -55,20 +54,24 @@ export class SolveHistoryService {
     }
 
     /**
-     * Updates the penalty for the current solve.
-     * @param penalty The penalty to apply to the current solve.
+     * Updates the solve.
+     * @param id The id of the solve to update.
+     * @param updates The updates to apply to the solve.
      */
-    updateSolvePenalty(id: number, penalty: Penalty) {
+    updateSolve(id: number, updates: Partial<Solve>) {
         this._solves.update(solves =>
             solves.map(solve => solve.id === id
                 ? {
                     ...solve,
-                    penalty,
+                    ...updates,
                     formattedTime: formatTime(solve.elapsedTime, penalty)
                 }
                 : solve
             )
         )
+
+        console.log("Updated solves:", this._solves.asReadonly()());
+        this._localStorage.setItem(LOCAL_STORAGE_KEY, this._solves.asReadonly()());
     }
 
     /**
